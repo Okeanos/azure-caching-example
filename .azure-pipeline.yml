@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+      - 'main'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: Inspect
+    displayName: Inspect Build Tool Caches
+    jobs:
+      - job: Inspect
+        displayName: Inspect Build Tool Caches
+        steps:
+          - task: GoTool@0
+            inputs:
+              version: '1.20.5'
+          - task: JavaToolInstaller@0
+            inputs:
+              versionSpec: '17'
+              jdkArchitectureOption: 'x64'
+              jdkSourceOption: 'PreInstalled'
+          - task: NodeTool@0
+            inputs:
+              versionSource: 'spec'
+              versionSpec: '18.x'
+          - bash: |
+              npm install --global pnpm
+              npm install --global yarn
+            displayName: Install additional tools
+          - bash: cd docker/ && docker build . && cd ..
+          - bash: cd gomod/ && go build && cd ..
+          - bash: cd gradle/ && ./gradlew clean build && cd ..
+          - bash: cd maven/ && ./mvnw clean package && cd ..
+          - bash: cd npm/ && npm ci && cd ..
+          - bash: cd pnpm/ && pnpm install && cd ..
+          - bash: cd yarn/ && yarn install --frozen-lockfile && cd ..
+          - bash: |
+              docker info
+              go env
+              cd gradle/ && ./gradlew projects --info && cd ..
+              cd maven/ && ./mvnw help:effective-settings && cd ..
+              npm config list
+              pnpm config list
+              yarn config list
