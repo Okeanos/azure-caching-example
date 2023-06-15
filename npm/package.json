@@ -1,0 +1,21 @@
+{
+	"name": "demo-project",
+	"version": "1.0.0",
+	"description": "a demo project",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://okeanos-azure@dev.azure.com/okeanos-azure/renovate%20me/_git/caching-example"
+	},
+	"author": "Nikolas Grottendieck",
+	"license": "MIT",
+	"dependencies": {
+		"bootstrap": "^5.3.0"
+	},
+	"devDependencies": {
+		"sass-loader": "^13.3.2"
+	}
+}

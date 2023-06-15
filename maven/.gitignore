@@ -1,0 +1,5 @@
+# Ignore Maven Wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Ignore Maven build output directory
+target/
