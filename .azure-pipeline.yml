@@ -28,6 +28,9 @@ stages:
           - bash: |
               npm install --global pnpm
               npm install --global yarn
+
+              npm config set cache=$(Pipeline.Workspace)/.npm
+              pnpm config set store-dir $(Pipeline.Workspace)/.cache/pnpm-store
             displayName: Install additional tools
           - bash: cd docker/ && docker build . && cd ..
           - bash: cd gomod/ && go build && cd ..
@@ -37,10 +40,25 @@ stages:
           - bash: cd pnpm/ && pnpm install && cd ..
           - bash: cd yarn/ && yarn install --frozen-lockfile && cd ..
           - bash: |
+              echo "##[section]Docker"
               docker info
+              echo "##[section]Go"
               go env
+              echo "##[section]Gradle"
               cd gradle/ && ./gradlew projects --info && cd ..
+              echo "##[section]Maven"
               cd maven/ && ./mvnw help:effective-settings && cd ..
+              echo "##[section]NPM"
               npm config list
+              echo "##[section]PNPM"
+              echo "##[debug]Global"
+              pnpm config list --global
+              echo "##[debug]Local"
               pnpm config list
+              echo "##[debug]Store"
+              pnpm store path
+              echo "##[section]Yarn"
               yarn config list
+              echo "##[section]File/Folder overview"
+              ls -la ${HOME}
+              ls -la ${HOME}/.cache
