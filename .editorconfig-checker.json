@@ -1,5 +1,9 @@
 {
 	"exclude": [
-		"\\.git[\\/]"
+		"\\.git[\\/]",
+		"^gradle/gradlew(\\.bat)?$",
+		"maven-wrapper\\.properties",
+		"^maven/mvnw(\\.cmd)?$",
+		"^yarn/yarn\\.lock$"
 	]
 }
