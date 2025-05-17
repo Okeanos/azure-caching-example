@@ -1,7 +1,4 @@
 {
 	"exclude": [
-		"gradlew(\\.bat)?$",
-		"mvnw(\\.cmd)?$",
-		"yarn[\\/]yarn\\.lock$"
 	]
 }
